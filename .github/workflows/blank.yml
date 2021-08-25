@@ -1,0 +1,30 @@
+import asyncio
+
+import discord
+
+client = discord.Client()
+
+
+@client.event
+async def on_ready():
+    print('You are logged in as {}'.format(client.user.name))
+    client.loop.create_task(status_task())
+
+
+async def status_task():
+    while True:
+        await client.change_presence(activity=discord.Game('https://discord.gg/G7NC2ZdAcQ'), status=discord.Status.online)
+        await asyncio.sleep(3)
+        await client.change_presence(activity=discord.Game('Created by KTMD3003'), status=discord.Status.online)
+        await asyncio.sleep(3)
+
+@client.event
+async def on_message(message):
+    if message.author.bot:
+        return
+    if '!help' in message.content:
+        await message.channel.send('**Hilfe zum KTMD Personal Bot**\r\n'
+                                   '!help - Zeigt diese Hilfe an')
+
+
+client.run('ODgwMDU1NDk1NDk3NDg2NDM2.YSYtjA.ZkiCoEKhq3IEDjZDYAgqgNaLKn0')
